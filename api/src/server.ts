@@ -1,12 +1,17 @@
 import express from 'express';
 import dotenv from 'dotenv';
 
+import { VehiclePosition } from './types/vehicle';
+import { startPoller } from './poller/gtfsPoller';
+
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3001;
 
 app.use(express.json());
+
+let latestVehicles: VehiclePosition[] = [];
 
 app.get('/', (_req, res) => {
     res.json({
@@ -23,6 +28,10 @@ app.get('/health', (_req, res) => {
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`)
+
+    startPoller((vehicles: VehiclePosition[]) => {
+        latestVehicles = vehicles;
+    });
 });
 
 export default app;
