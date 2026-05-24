@@ -72,6 +72,8 @@ GTFS-RT Feed (MBTA)
 |---|---|
 | Supabase (PostgreSQL + PostGIS) | Vehicle position persistence |
 | Docker | Containerization |
+| Fly.io | Hosting — API and web (supports WebSockets) |
+| GitHub Actions | CI/CD pipeline |
 | Redis Pub/Sub | Horizontal scaling support |
 
 ---
@@ -173,11 +175,28 @@ VITE_MAPLIBRE_STYLE=https://demotiles.maplibre.org/style.json
 | WebSocket broadcast | 🔲 In progress |
 | React frontend | 🔲 Not started |
 | Supabase persistence | 🔲 Not started |
-| Docker + deployment | 🔲 Not started |
+| Docker + Fly.io deployment | 🔲 Not started |
+| GitHub Actions CI/CD | 🔲 Not started |
 
 ---
 
-## Adapting for Other Transit Agencies
+## Deployment
+
+The app is deployed on **Fly.io**, which supports persistent WebSocket connections and runs Docker containers directly. Both the `api/` and `web/` are deployed there.
+
+### CI/CD Pipeline (GitHub Actions)
+
+| Trigger | Steps |
+|---|---|
+| Push to any branch | ESLint, TypeScript check, build |
+| Pull Request | All checks must pass + at least one reviewer approval before merge |
+| Merge to `main` | All checks re-run, then auto-deploy to Fly.io |
+
+Direct pushes to `main` are disabled. All changes go through a Pull Request.
+
+---
+
+
 
 This project is built around the open GTFS-RT standard. To use it with a different transit agency:
 
