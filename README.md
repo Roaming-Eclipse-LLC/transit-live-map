@@ -48,33 +48,36 @@ GTFS-RT Feed (MBTA)
 ## Tech Stack
 
 ### API
-| Tool | Purpose |
-|---|---|
-| Node.js | Runtime |
-| Express | HTTP server |
-| TypeScript (strict) | Type safety |
-| protobufjs | Decode GTFS-RT binary feed |
-| ws | Lightweight WebSocket server |
-| dotenv | Environment variable management |
-| tsx | TypeScript dev server (no compile step) |
-| ESLint + Prettier | Linting and formatting |
+
+| Tool                | Purpose                                 |
+| ------------------- | --------------------------------------- |
+| Node.js             | Runtime                                 |
+| Express             | HTTP server                             |
+| TypeScript (strict) | Type safety                             |
+| protobufjs          | Decode GTFS-RT binary feed              |
+| ws                  | Lightweight WebSocket server            |
+| dotenv              | Environment variable management         |
+| tsx                 | TypeScript dev server (no compile step) |
+| ESLint + Prettier   | Linting and formatting                  |
 
 ### Web
-| Tool | Purpose |
-|---|---|
-| React | UI framework |
-| Vite | Build tool and dev server |
-| TypeScript | Type safety |
+
+| Tool           | Purpose                                 |
+| -------------- | --------------------------------------- |
+| React          | UI framework                            |
+| Vite           | Build tool and dev server               |
+| TypeScript     | Type safety                             |
 | MapLibre GL JS | Interactive map rendering (open source) |
 
 ### Planned (Phase 2)
-| Tool | Purpose |
-|---|---|
-| Supabase (PostgreSQL + PostGIS) | Vehicle position persistence |
-| Docker | Containerization |
-| Fly.io | Hosting — API and web (supports WebSockets) |
-| GitHub Actions | CI/CD pipeline |
-| Redis Pub/Sub | Horizontal scaling support |
+
+| Tool                            | Purpose                                     |
+| ------------------------------- | ------------------------------------------- |
+| Supabase (PostgreSQL + PostGIS) | Vehicle position persistence                |
+| Docker                          | Containerization                            |
+| Fly.io                          | Hosting — API and web (supports WebSockets) |
+| GitHub Actions                  | CI/CD pipeline                              |
+| Redis Pub/Sub                   | Horizontal scaling support                  |
 
 ---
 
@@ -109,27 +112,30 @@ Each vehicle broadcast to the frontend:
 
 ## API Endpoints
 
-| Method | Route | Description |
-|---|---|---|
-| GET | `/` | Root — confirms API is running |
-| GET | `/health` | Health check with timestamp |
-| WS | `ws://localhost:3001` | WebSocket — streams vehicle positions |
+| Method | Route                 | Description                           |
+| ------ | --------------------- | ------------------------------------- |
+| GET    | `/`                   | Root — confirms API is running        |
+| GET    | `/health`             | Health check with timestamp           |
+| WS     | `ws://localhost:3001` | WebSocket — streams vehicle positions |
 
 ---
 
 ## Getting Started
 
 ### Prerequisites
+
 - Node.js v18+
 - npm v9+
 
 ### 1. Clone the repo
+
 ```bash
 git clone git@github.com:your-org/transit-live-map.git
 cd transit-live-map
 ```
 
 ### 2. Set up the API
+
 ```bash
 cd api
 npm install
@@ -139,6 +145,7 @@ npm run dev
 ```
 
 ### 3. Set up the web client
+
 ```bash
 cd web
 npm install
@@ -151,6 +158,7 @@ npm run dev
 ## Environment Variables
 
 ### api/.env
+
 ```
 PORT=3001
 POLL_INTERVAL_MS=10000
@@ -159,6 +167,7 @@ MBTA_API_KEY=your_mbta_api_key_here
 ```
 
 ### web/.env
+
 ```
 VITE_WS_URL=ws://localhost:3001
 VITE_MAPLIBRE_STYLE=https://demotiles.maplibre.org/style.json
@@ -168,15 +177,15 @@ VITE_MAPLIBRE_STYLE=https://demotiles.maplibre.org/style.json
 
 ## Project Status
 
-| Phase | Status |
-|---|---|
-| Project scaffold | ✅ Complete |
-| GTFS-RT poller | ✅ Complete |
-| WebSocket broadcast | 🔲 In progress |
-| React frontend | 🔲 Not started |
-| Supabase persistence | 🔲 Not started |
+| Phase                      | Status         |
+| -------------------------- | -------------- |
+| Project scaffold           | ✅ Complete    |
+| GTFS-RT poller             | ✅ Complete    |
+| WebSocket broadcast        | ✅ Complete    |
+| React frontend             | 🔲 Not started |
+| Supabase persistence       | 🔲 Not started |
 | Docker + Fly.io deployment | 🔲 Not started |
-| GitHub Actions CI/CD | 🔲 Not started |
+| GitHub Actions CI/CD       | 🔲 Not started |
 
 ---
 
@@ -186,17 +195,15 @@ The app is deployed on **Fly.io**, which supports persistent WebSocket connectio
 
 ### CI/CD Pipeline (GitHub Actions)
 
-| Trigger | Steps |
-|---|---|
-| Push to any branch | ESLint, TypeScript check, build |
-| Pull Request | All checks must pass + at least one reviewer approval before merge |
-| Merge to `main` | All checks re-run, then auto-deploy to Fly.io |
+| Trigger            | Steps                                                              |
+| ------------------ | ------------------------------------------------------------------ |
+| Push to any branch | ESLint, TypeScript check, build                                    |
+| Pull Request       | All checks must pass + at least one reviewer approval before merge |
+| Merge to `main`    | All checks re-run, then auto-deploy to Fly.io                      |
 
 Direct pushes to `main` are disabled. All changes go through a Pull Request.
 
 ---
-
-
 
 This project is built around the open GTFS-RT standard. To use it with a different transit agency:
 
