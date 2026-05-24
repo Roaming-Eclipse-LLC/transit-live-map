@@ -12,6 +12,7 @@ const POLL_INTERVAL_MS = parseInt(process.env.POLL_INTERVAL_MS ?? '10000', 10);
 
 let root: protobuf.Root | null = null;
 
+/** Lazily loads and caches the GTFS-RT protobuf schema, returning the FeedMessage type. */
 async function loadProto(): Promise<protobuf.Type> {
   if (!root) {
     root = await protobuf.load(path.join(__dirname, 'gtfs-realtime.proto'));
@@ -20,6 +21,7 @@ async function loadProto(): Promise<protobuf.Type> {
   return root.lookupType('transit_realtime.FeedMessage');
 }
 
+/** Fetches the GTFS-RT binary feed, decodes it via protobuf, and maps entities to VehiclePositions. */
 async function fetchVehiclePositions(): Promise<VehiclePosition[]> {
   const FeedMessage = await loadProto();
 
@@ -57,6 +59,7 @@ async function fetchVehiclePositions(): Promise<VehiclePosition[]> {
     });
 }
 
+/** Runs an immediate poll then schedules repeated fetches at POLL_INTERVAL_MS, invoking onUpdate with each result. */
 export function startPoller(
   onUpdate: (vehicles: VehiclePosition[]) => void,
 ): void {
