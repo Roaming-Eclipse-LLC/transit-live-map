@@ -62,12 +62,15 @@ GTFS-RT Feed (MBTA)
 
 ### Web
 
-| Tool           | Purpose                                 |
-| -------------- | --------------------------------------- |
-| React          | UI framework                            |
-| Vite           | Build tool and dev server               |
-| TypeScript     | Type safety                             |
-| MapLibre GL JS | Interactive map rendering (open source) |
+| Tool           | Purpose                                         |
+| -------------- | ----------------------------------------------- |
+| React          | UI framework                                    |
+| Vite           | Build tool and dev server                       |
+| TypeScript     | Type safety                                     |
+| MapLibre GL JS | Interactive map rendering (open source)         |
+| MapTiler       | Map tile provider (free tier, API key required) |
+
+> **Map tile options:** This project uses [MapTiler](https://maptiler.com) for map tiles by default (free tier, 50,000 requests/month). For a fully open source, no-API-key alternative, [OpenFreeMap](https://openfreemap.org) is supported — swap the style URL in `Map/index.tsx` to `https://tiles.openfreemap.org/styles/liberty`.
 
 ### Planned (Phase 2)
 
@@ -126,6 +129,7 @@ Each vehicle broadcast to the frontend:
 
 - Node.js v18+
 - npm v9+
+- A MapTiler API key ([maptiler.com](https://maptiler.com)) — or use OpenFreeMap for no key required
 
 ### 1. Clone the repo
 
@@ -150,6 +154,7 @@ npm run dev
 cd web
 npm install
 cp .env.example .env
+# Add your MapTiler API key to .env
 npm run dev
 ```
 
@@ -170,22 +175,10 @@ MBTA_API_KEY=your_mbta_api_key_here
 
 ```
 VITE_WS_URL=ws://localhost:3001
-VITE_MAPLIBRE_STYLE=https://demotiles.maplibre.org/style.json
+VITE_MAPTILER_KEY=your_maptiler_key_here
 ```
 
----
-
-## Project Status
-
-| Phase                      | Status         |
-| -------------------------- | -------------- |
-| Project scaffold           | ✅ Complete    |
-| GTFS-RT poller             | ✅ Complete    |
-| WebSocket broadcast        | ✅ Complete    |
-| React frontend             | 🔲 Not started |
-| Supabase persistence       | 🔲 Not started |
-| Docker + Fly.io deployment | 🔲 Not started |
-| GitHub Actions CI/CD       | 🔲 Not started |
+> For OpenFreeMap (no API key needed), remove `VITE_MAPTILER_KEY` and update the style URL in `Map/index.tsx`.
 
 ---
 
@@ -204,6 +197,24 @@ The app is deployed on **Fly.io**, which supports persistent WebSocket connectio
 Direct pushes to `main` are disabled. All changes go through a Pull Request.
 
 ---
+
+## Project Status
+
+| Phase                                  | Status         |
+| -------------------------------------- | -------------- |
+| Project scaffold                       | ✅ Complete    |
+| GTFS-RT poller                         | ✅ Complete    |
+| WebSocket broadcast                    | ✅ Complete    |
+| React frontend — map scaffold          | ✅ Complete    |
+| React frontend — WebSocket integration | 🔲 In progress |
+| React frontend — bus markers           | 🔲 Not started |
+| Supabase persistence                   | 🔲 Not started |
+| Docker + Fly.io deployment             | 🔲 Not started |
+| GitHub Actions CI/CD                   | 🔲 Not started |
+
+---
+
+## Adapting for Other Transit Agencies
 
 This project is built around the open GTFS-RT standard. To use it with a different transit agency:
 
