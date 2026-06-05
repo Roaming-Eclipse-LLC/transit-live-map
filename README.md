@@ -200,21 +200,22 @@ Direct pushes to `main` are disabled. All changes go through a Pull Request.
 
 ## Project Status
 
-| Phase                                        | Status         |
-| -------------------------------------------- | -------------- |
-| Project scaffold                             | ✅ Complete    |
-| GTFS-RT poller                               | ✅ Complete    |
-| WebSocket broadcast                          | ✅ Complete    |
-| React frontend — map scaffold                | ✅ Complete    |
-| React frontend — WebSocket integration       | ✅ Complete    |
-| React frontend — vehicle markers (dots)      | ✅ Complete    |
-| React frontend — directional arrows          | ✅ Complete    |
-| React frontend — loading state               | ✅ Complete    |
-| React frontend — vehicle popups              | 🔲 In progress |
-| React frontend — custom bus icons (post-MVP) | 🔲 Not started |
-| Supabase persistence                         | 🔲 Not started |
-| Docker + Fly.io deployment                   | 🔲 Not started |
-| GitHub Actions CI/CD                         | 🔲 Not started |
+| Phase                                                  | Status         |
+| ------------------------------------------------------ | -------------- |
+| Project scaffold                                       | ✅ Complete    |
+| GTFS-RT poller                                         | ✅ Complete    |
+| WebSocket broadcast                                    | ✅ Complete    |
+| React frontend — map scaffold                          | ✅ Complete    |
+| React frontend — WebSocket integration                 | ✅ Complete    |
+| React frontend — vehicle markers (dots)                | ✅ Complete    |
+| React frontend — directional arrows                    | ✅ Complete    |
+| React frontend — loading state                         | ✅ Complete    |
+| React frontend — vehicle popups (basic)                | 🔲 In progress |
+| React frontend — vehicle popups (stop/prediction data) | 🔲 Not started |
+| React frontend — custom bus icons (post-MVP)           | 🔲 Not started |
+| Supabase persistence                                   | 🔲 Not started |
+| Docker + Fly.io deployment                             | 🔲 Not started |
+| GitHub Actions CI/CD                                   | 🔲 Not started |
 
 ---
 
@@ -230,6 +231,7 @@ This project is built around the open GTFS-RT standard. To use it with a differe
 
 ## Future Expansion
 
+- Stop and next stop data via MBTA v3 `/predictions` endpoint
 - Real-time route filtering
 - ETA predictions
 - Historical playback
