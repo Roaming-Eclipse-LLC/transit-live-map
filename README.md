@@ -208,8 +208,9 @@ Direct pushes to `main` are disabled. All changes go through a Pull Request.
 | React frontend — map scaffold                | ✅ Complete    |
 | React frontend — WebSocket integration       | ✅ Complete    |
 | React frontend — vehicle markers (dots)      | ✅ Complete    |
-| React frontend — directional arrows          | 🔲 In progress |
-| React frontend — loading state               | 🔲 Not started |
+| React frontend — directional arrows          | ✅ Complete    |
+| React frontend — loading state               | ✅ Complete    |
+| React frontend — vehicle popups              | 🔲 In progress |
 | React frontend — custom bus icons (post-MVP) | 🔲 Not started |
 | Supabase persistence                         | 🔲 Not started |
 | Docker + Fly.io deployment                   | 🔲 Not started |
