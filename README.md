@@ -200,17 +200,20 @@ Direct pushes to `main` are disabled. All changes go through a Pull Request.
 
 ## Project Status
 
-| Phase                                  | Status         |
-| -------------------------------------- | -------------- |
-| Project scaffold                       | ✅ Complete    |
-| GTFS-RT poller                         | ✅ Complete    |
-| WebSocket broadcast                    | ✅ Complete    |
-| React frontend — map scaffold          | ✅ Complete    |
-| React frontend — WebSocket integration | 🔲 In progress |
-| React frontend — bus markers           | 🔲 Not started |
-| Supabase persistence                   | 🔲 Not started |
-| Docker + Fly.io deployment             | 🔲 Not started |
-| GitHub Actions CI/CD                   | 🔲 Not started |
+| Phase                                        | Status         |
+| -------------------------------------------- | -------------- |
+| Project scaffold                             | ✅ Complete    |
+| GTFS-RT poller                               | ✅ Complete    |
+| WebSocket broadcast                          | ✅ Complete    |
+| React frontend — map scaffold                | ✅ Complete    |
+| React frontend — WebSocket integration       | ✅ Complete    |
+| React frontend — vehicle markers (dots)      | ✅ Complete    |
+| React frontend — directional arrows          | 🔲 In progress |
+| React frontend — loading state               | 🔲 Not started |
+| React frontend — custom bus icons (post-MVP) | 🔲 Not started |
+| Supabase persistence                         | 🔲 Not started |
+| Docker + Fly.io deployment                   | 🔲 Not started |
+| GitHub Actions CI/CD                         | 🔲 Not started |
 
 ---
 
