@@ -74,13 +74,13 @@ GTFS-RT Feed (MBTA)
 
 ### Planned (Phase 2)
 
-| Tool                            | Purpose                                     |
-| ------------------------------- | ------------------------------------------- |
-| Supabase (PostgreSQL + PostGIS) | Vehicle position persistence                |
-| Docker                          | Containerization                            |
-| Fly.io                          | Hosting — API and web (supports WebSockets) |
-| GitHub Actions                  | CI/CD pipeline                              |
-| Redis Pub/Sub                   | Horizontal scaling support                  |
+| Tool           | Purpose                                    |
+| -------------- | ------------------------------------------ |
+| Docker         | Containerization                           |
+| Fly.io         | Backend hosting — supports WebSockets      |
+| Vercel         | Frontend hosting — static React deployment |
+| GitHub Actions | CI/CD pipeline                             |
+| Redis Pub/Sub  | Horizontal scaling support                 |
 
 ---
 
@@ -213,9 +213,10 @@ Direct pushes to `main` are disabled. All changes go through a Pull Request.
 | React frontend — vehicle panel (slide-up)    | ✅ Complete    |
 | React frontend — selected vehicle highlight  | ✅ Complete    |
 | React frontend — custom bus icons (post-MVP) | 🔲 Not started |
-| Supabase persistence                         | 🔲 Not started |
-| Docker + Fly.io deployment                   | 🔲 Not started |
+| Docker + Fly.io deployment (backend)         | 🔲 Not started |
+| Vercel deployment (frontend)                 | 🔲 Not started |
 | GitHub Actions CI/CD                         | 🔲 Not started |
+| GitHub branch protection rules               | 🔲 Not started |
 
 ---
 
@@ -231,6 +232,7 @@ This project is built around the open GTFS-RT standard. To use it with a differe
 
 ## Future Expansion
 
+- Supabase (PostgreSQL + PostGIS) for historical vehicle position persistence
 - Stop and next stop data via MBTA v3 `/predictions` endpoint (vehicle panel expansion)
 - Real-time route filtering
 - ETA predictions
