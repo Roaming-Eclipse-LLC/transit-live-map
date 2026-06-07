@@ -58,6 +58,7 @@ GTFS-RT Feed (MBTA)
 | ws                  | Lightweight WebSocket server            |
 | dotenv              | Environment variable management         |
 | tsx                 | TypeScript dev server (no compile step) |
+| express-rate-limit  | HTTP endpoint rate limiting             |
 | ESLint + Prettier   | Linting and formatting                  |
 
 ### Web
@@ -120,6 +121,10 @@ Each vehicle broadcast to the frontend:
 | GET    | `/`                   | Root — confirms API is running        |
 | GET    | `/health`             | Health check with timestamp           |
 | WS     | `ws://localhost:3001` | WebSocket — streams vehicle positions |
+
+## Rate Limiting
+
+HTTP endpoints are rate limited to **25 requests per 5 minutes** per IP. WebSocket connections are not rate limited.
 
 ---
 
@@ -184,7 +189,17 @@ VITE_MAPTILER_KEY=your_maptiler_key_here
 
 ## Deployment
 
-The app is deployed on **Fly.io**, which supports persistent WebSocket connections and runs Docker containers directly. Both the `api/` and `web/` are deployed there.
+### API — Fly.io
+
+The API is deployed on **Fly.io** using Docker. Fly.io supports persistent WebSocket connections and runs Docker containers directly.
+
+Production URL: `https://transit-live-map-api.fly.dev`
+
+### Frontend — Vercel
+
+The React frontend is deployed on **Vercel** with automatic deploys on merge to `main`.
+
+Production URL: `coming soon`
 
 ### CI/CD Pipeline (GitHub Actions)
 
@@ -192,7 +207,7 @@ The app is deployed on **Fly.io**, which supports persistent WebSocket connectio
 | ------------------ | ------------------------------------------------------------------ |
 | Push to any branch | ESLint, TypeScript check, build                                    |
 | Pull Request       | All checks must pass + at least one reviewer approval before merge |
-| Merge to `main`    | All checks re-run, then auto-deploy to Fly.io                      |
+| Merge to `main`    | All checks re-run, then auto-deploy                                |
 
 Direct pushes to `main` are disabled. All changes go through a Pull Request.
 
@@ -207,14 +222,15 @@ Direct pushes to `main` are disabled. All changes go through a Pull Request.
 | WebSocket broadcast                          | ✅ Complete    |
 | React frontend — map scaffold                | ✅ Complete    |
 | React frontend — WebSocket integration       | ✅ Complete    |
-| React frontend — vehicle markers (dots)      | ✅ Complete    |
+| React frontend — vehicle markers             | ✅ Complete    |
 | React frontend — directional arrows          | ✅ Complete    |
 | React frontend — loading state               | ✅ Complete    |
 | React frontend — vehicle panel (slide-up)    | ✅ Complete    |
 | React frontend — selected vehicle highlight  | ✅ Complete    |
+| API rate limiting                            | ✅ Complete    |
+| Docker + Fly.io deployment (backend)         | ✅ Complete    |
 | React frontend — custom bus icons (post-MVP) | 🔲 Not started |
-| Docker + Fly.io deployment (backend)         | 🔲 Not started |
-| Vercel deployment (frontend)                 | 🔲 Not started |
+| Vercel deployment (frontend)                 | 🔲 In progress |
 | GitHub Actions CI/CD                         | 🔲 Not started |
 | GitHub branch protection rules               | 🔲 Not started |
 
@@ -232,6 +248,8 @@ This project is built around the open GTFS-RT standard. To use it with a differe
 
 ## Future Expansion
 
+- WebSocket authentication (post-MVP)
+- Per-IP WebSocket rate limiting
 - Supabase (PostgreSQL + PostGIS) for historical vehicle position persistence
 - Stop and next stop data via MBTA v3 `/predictions` endpoint (vehicle panel expansion)
 - Real-time route filtering

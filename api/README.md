@@ -10,6 +10,7 @@ Node.js/Express backend for the Transit Live Map application. Polls the MBTA GTF
 - ws — WebSocket server
 - dotenv — environment variable management
 - tsx — TypeScript dev server
+- express-rate-limit — HTTP endpoint rate limiting
 
 ## Getting Started
 
@@ -46,10 +47,35 @@ MBTA_API_KEY=your_mbta_api_key_here
 | GET    | `/health`             | Health check with timestamp    |
 | WS     | `ws://localhost:3001` | Streams live vehicle positions |
 
+## Rate Limiting
+
+HTTP endpoints are rate limited to **25 requests per 5 minutes** per IP. Exceeding this returns a `429 Too Many Requests` response. WebSocket connections are not rate limited.
+
+## Deployment
+
+The API is deployed on **Fly.io** using Docker.
+
+Production URL: `https://transit-live-map-api.fly.dev`
+
+To deploy manually:
+
+```bash
+fly deploy
+```
+
+Environment variables are managed via Fly.io secrets:
+
+```bash
+fly secrets set MBTA_API_KEY=your_key_here
+fly secrets set GTFS_RT_URL=https://cdn.mbta.com/realtime/VehiclePositions.pb
+```
+
 ## Architecture
 
 ```
 src/
+├── middleware/
+│   └── rateLimiter.ts       # Express rate limiting middleware
 ├── poller/
 │   ├── gtfs-realtime.proto  # Official GTFS-RT schema
 │   └── gtfsPoller.ts        # GTFS-RT polling and protobuf decoding
@@ -62,3 +88,9 @@ src/
 │   └── wsServer.ts          # WebSocket server and broadcast logic
 └── server.ts                # Express server entry point
 ```
+
+## Future Improvements
+
+- WebSocket authentication (post-MVP)
+- Per-IP WebSocket rate limiting
+- Redis Pub/Sub for horizontal scaling
