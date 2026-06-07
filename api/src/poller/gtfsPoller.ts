@@ -1,8 +1,8 @@
 import protobuf from 'protobufjs';
 import path from 'path';
 
-import { VehiclePosition } from '../types/vehicle';
-import { GtfsFeedEntity, GtfsFeedMessage } from '../types/gtfs';
+import type { VehiclePosition } from '../types/vehicle';
+import type { GtfsFeedEntity, GtfsFeedMessage } from '../types/gtfs';
 
 import { convertLong } from '../utils/convertLong';
 

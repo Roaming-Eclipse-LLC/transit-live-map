@@ -7,12 +7,13 @@ import { createArrowImage } from '../../utils/arrowImage';
 import { LoadingOverlay } from '../LoadingOverlay';
 import { VehiclePanel } from '../VehiclePanel';
 
-import { type VehiclePosition } from '../../types/vehicle';
+import type { VehiclePosition } from '../../types/vehicle';
 import styles from './Map.module.scss';
 
 const MAPTILER_KEY = import.meta.env.VITE_MAPTILER_KEY;
 const SOURCE_ID = 'vehicles';
-const LAYER_ID = 'vehicle-circles';
+
+const LAYER_ID = 'vehicle-arrows';
 const IMAGE_ID = 'vehicle-arrow';
 
 const SELECTED_LAYER_ID = 'vehicle-arrows-selected';
@@ -39,9 +40,7 @@ const Map = () => {
 
     map.current = new maplibregl.Map({
       container: mapContainer.current,
-      style: `
-        https://api.maptiler.com/maps/streets-v2/style.json?key=${MAPTILER_KEY}
-    `,
+      style: `https://api.maptiler.com/maps/streets-v2/style.json?key=${MAPTILER_KEY}`,
       center: [-71.0589, 42.3601], // Current location of the MBTA (Boston, MA)
       zoom: 12,
     });
@@ -105,8 +104,6 @@ const Map = () => {
           return;
         }
 
-        console.log('raw properties:', features[0].properties);
-
         const props = features[0].properties as VehiclePosition;
         setSelectedVehicle(props);
 
@@ -155,8 +152,6 @@ const Map = () => {
   }, []);
 
   useEffect(() => {
-    console.log(`Received ${vehicles.length} vehicles`);
-
     const m = map.current;
 
     if (!m || !mapLoaded) {
