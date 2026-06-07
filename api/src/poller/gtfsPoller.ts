@@ -4,6 +4,8 @@ import path from 'path';
 import { VehiclePosition } from '../types/vehicle';
 import { GtfsFeedEntity, GtfsFeedMessage } from '../types/gtfs';
 
+import { convertLong } from '../utils/convertLong';
+
 const GTFS_RT_URL =
   process.env.GTFS_RT_URL ??
   'https://cdn.mbta.com/realtime/VehiclePositions.pb';
@@ -54,7 +56,7 @@ async function fetchVehiclePositions(): Promise<VehiclePosition[]> {
         longitude: v.position!.longitude,
         bearing: v.position?.bearing ?? undefined,
         speed: v.position?.speed ?? undefined,
-        timestamp: v.timestamp ?? Date.now(),
+        timestamp: convertLong(v.timestamp),
       } satisfies VehiclePosition;
     });
 }

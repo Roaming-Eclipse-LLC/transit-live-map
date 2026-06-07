@@ -1,4 +1,8 @@
-export const createArrowImage = (size: number = 40): ImageData => {
+export const createArrowImage = (
+  size: number = 40,
+  fillColor: string = '#0aacbb',
+  strokeColor: string = '#000000',
+): ImageData => {
   const canvas = document.createElement('canvas');
 
   canvas.width = size;
@@ -25,10 +29,10 @@ export const createArrowImage = (size: number = 40): ImageData => {
   ctx.lineTo(half - wingSpread, base);
   ctx.closePath();
 
-  ctx.fillStyle = '#06bdce';
+  ctx.fillStyle = fillColor;
   ctx.fill();
 
-  ctx.strokeStyle = '#000000';
+  ctx.strokeStyle = strokeColor;
   ctx.lineWidth = 2;
   ctx.stroke();
 
