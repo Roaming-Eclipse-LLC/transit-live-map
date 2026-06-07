@@ -2,6 +2,8 @@ import express from 'express';
 import http from 'http';
 import dotenv from 'dotenv';
 
+import { rateLimiter } from './middleware/rateLimiter';
+
 import { startPoller } from './poller/gtfsPoller';
 import { initWebSocketServer, broadcastVehicles } from './websocket/wsServer';
 import { VehiclePosition } from './types/vehicle';
@@ -12,6 +14,7 @@ const app = express();
 const PORT = process.env.PORT ?? 3001;
 
 app.use(express.json());
+app.use(rateLimiter);
 
 const server = http.createServer(app);
 
