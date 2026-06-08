@@ -141,7 +141,12 @@ HTTP endpoints are rate limited to **25 requests per 5 minutes** per IP. WebSock
 ```bash
 git clone git@github.com:your-org/transit-live-map.git
 cd transit-live-map
+./setup.sh
 ```
+
+The setup script creates the necessary `.env` files from the provided examples. You'll still need to add your API keys manually — see Environment Variables below.
+
+> **For larger teams or contract deployments:** consider a dedicated secret management tool such as [Doppler](https://doppler.com) or [Infisical](https://infisical.com) to share secrets securely across team members and environments without manual copying.
 
 ### 2. Set up the API
 

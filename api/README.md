@@ -21,6 +21,8 @@ cp .env.example .env
 npm run dev
 ```
 
+> **For larger teams or contract deployments:** consider using [Doppler](https://doppler.com) or [Infisical](https://infisical.com) for shared secret management across environments.
+
 ## Environment Variables
 
 ```
