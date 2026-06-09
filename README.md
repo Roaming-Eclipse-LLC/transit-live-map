@@ -204,7 +204,7 @@ Production URL: `https://transit-live-map-api.fly.dev`
 
 The React frontend is deployed on **Vercel** with automatic deploys on merge to `main`.
 
-Production URL: `coming soon`
+Production URL: `https://transit-live-map.vercel.app`
 
 ### CI/CD Pipeline (GitHub Actions)
 
@@ -235,7 +235,7 @@ Direct pushes to `main` are disabled. All changes go through a Pull Request.
 | API rate limiting                            | ✅ Complete    |
 | Docker + Fly.io deployment (backend)         | ✅ Complete    |
 | React frontend — custom bus icons (post-MVP) | 🔲 Not started |
-| Vercel deployment (frontend)                 | 🔲 In progress |
+| Vercel deployment (frontend)                 | ✅ Complete    |
 | GitHub Actions CI/CD                         | 🔲 Not started |
 | GitHub branch protection rules               | 🔲 Not started |
 
