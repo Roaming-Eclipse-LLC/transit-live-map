@@ -235,9 +235,12 @@ Direct pushes to `main` are disabled. All changes go through a Pull Request.
 | API rate limiting                            | ✅ Complete    |
 | Docker + Fly.io deployment (backend)         | ✅ Complete    |
 | React frontend — custom bus icons (post-MVP) | 🔲 Not started |
+| Tech stack page                              | 🔲 In progress |
 | Vercel deployment (frontend)                 | ✅ Complete    |
 | GitHub Actions CI/CD                         | 🔲 Not started |
 | GitHub branch protection rules               | 🔲 Not started |
+| API test coverage (unit + integration)       | 🔲 Not started |
+| Frontend test coverage (unit + component)    | 🔲 Not started |
 
 ---
 
@@ -253,8 +256,9 @@ This project is built around the open GTFS-RT standard. To use it with a differe
 
 ## Future Expansion
 
+- Automated test coverage — unit tests for API utilities and normalizers (Jest), component tests for React UI (Vitest + React Testing Library)
 - WebSocket authentication (post-MVP)
-- Per-IP WebSocket rate limiting
+- Per-IP WebSocket rate limiting and maximum concurrent connection limits
 - Supabase (PostgreSQL + PostGIS) for historical vehicle position persistence
 - Stop and next stop data via MBTA v3 `/predictions` endpoint (vehicle panel expansion)
 - Real-time route filtering
