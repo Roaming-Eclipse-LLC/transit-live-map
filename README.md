@@ -1,6 +1,6 @@
 # Transit Live Map
 
-A real-time transit vehicle tracking application powered by the MBTA GTFS-RT vehicle positions feed. Built with a clean, modular architecture designed for scalability, long-term maintainability, and adaptability to other transit agencies.
+A real-time transit vehicle tracking application powered by the MBTA GTFS-RT vehicle positions feed. Built with a clean, modular architecture designed for scalability, long-term maintainability, and adaptability for other transit agencies.
 
 ---
 
