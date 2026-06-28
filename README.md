@@ -239,6 +239,7 @@ Direct pushes to `main` are disabled. All changes go through a Pull Request.
 | Vercel deployment (frontend)                 | ✅ Complete    |
 | GitHub Actions CI/CD                         | 🔲 Not started |
 | GitHub branch protection rules               | 🔲 Not started |
+| Cookie / privacy disclaimer                  | 🔲 Not started |
 | API test coverage (unit + integration)       | 🔲 Not started |
 | Frontend test coverage (unit + component)    | 🔲 Not started |
 
