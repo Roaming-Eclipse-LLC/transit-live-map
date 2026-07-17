@@ -1,5 +1,3 @@
-import { Link } from 'react-router-dom';
-
 import { techStackSections } from '../../data/techStack';
 import type { TechItem, TechSection } from '../../types/techStack';
 
@@ -31,10 +29,6 @@ const TechSection = ({ title, items }: TechSection) => {
 const TechStackPage = () => {
   return (
     <div className={styles.pages}>
-      <Link to='/' className={styles.backLink}>
-        ← Back to Map
-      </Link>
-
       <div className={styles.content}>
         <header className={styles.header}>
           <h1 className={styles.title}>Transit Live Map</h1>
