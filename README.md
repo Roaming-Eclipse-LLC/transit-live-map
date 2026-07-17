@@ -1,6 +1,6 @@
 # Transit Live Map
 
-A real-time transit vehicle tracking application powered by the MBTA GTFS-RT vehicle positions feed. Built with a clean, modular architecture designed for scalability, long-term maintainability, and adaptability for other transit agencies.
+A real-time transit vehicle tracking application powered by the MBTA GTFS-RT vehicle positions feed. Built with a clean, modular architecture designed for scalability, long-term maintainability, and adaptability to other transit agencies.
 
 ---
 
@@ -258,8 +258,14 @@ This project is built around the open GTFS-RT standard. To use it with a differe
 ## Future Expansion
 
 - Automated test coverage — unit tests for API utilities and normalizers (Jest), component tests for React UI (Vitest + React Testing Library)
+- Light/dark mode toggle (considering Tailwind CSS for theming)
+- Transit vehicle type differentiation — unique icons per vehicle type (bus, subway, commuter rail, ferry)
 - WebSocket authentication (post-MVP)
 - Per-IP WebSocket rate limiting and maximum concurrent connection limits
+- Helmet.js for HTTP security headers (XSS, clickjacking, etc.)
+- DDoS protection via Cloudflare or similar (recommended before any public city contract deployment)
+- `robots.txt` and crawler/AI scraping protection (Cloudflare bot management for stronger enforcement)
+- Feature flag / A/B testing support (considering Unleash or LaunchDarkly for controlled rollouts)
 - Supabase (PostgreSQL + PostGIS) for historical vehicle position persistence
 - Stop and next stop data via MBTA v3 `/predictions` endpoint (vehicle panel expansion)
 - Real-time route filtering
