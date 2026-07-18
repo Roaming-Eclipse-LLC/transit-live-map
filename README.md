@@ -266,6 +266,7 @@ This project is built around the open GTFS-RT standard. To use it with a differe
 - DDoS protection via Cloudflare or similar (recommended before any public city contract deployment)
 - `robots.txt` and crawler/AI scraping protection (Cloudflare bot management for stronger enforcement)
 - Feature flag / A/B testing support (considering Unleash or LaunchDarkly for controlled rollouts)
+- Vercel staging environment with manual promotion to production (build once from `main`, promote same artifact)
 - Supabase (PostgreSQL + PostGIS) for historical vehicle position persistence
 - Stop and next stop data via MBTA v3 `/predictions` endpoint (vehicle panel expansion)
 - Real-time route filtering
