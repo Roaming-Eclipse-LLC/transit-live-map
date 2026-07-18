@@ -31,9 +31,10 @@ export const techStackSections: TechSection[] = [
     items: [
       { name: 'Docker', description: 'Containerized backend' },
       { name: 'Fly.io', description: 'Backend hosting (WebSockets)' },
-      { name: 'Vercel', description: 'FrontEnd hosting & CI' },
+      { name: 'Vercel', description: 'Frontend hosting & CI' },
       { name: 'GitHub Actions', description: 'CI/CD pipeline' },
-      { name: 'GitHub', description: 'Version control & PR workflows' },
+      { name: 'GitHub', description: 'Version control & PR workflow' },
+      { name: 'Dependabot', description: 'Automated dependency updates' },
     ],
   },
   {
@@ -41,6 +42,8 @@ export const techStackSections: TechSection[] = [
     items: [
       { name: 'ESLint', description: 'Code linting' },
       { name: 'Prettier', description: 'Code formatting' },
+      { name: 'Lefthook', description: 'Git hooks (pre-commit & pre-push)' },
+      { name: 'CODEOWNERS', description: 'PR review enforcement' },
     ],
   },
 ];
