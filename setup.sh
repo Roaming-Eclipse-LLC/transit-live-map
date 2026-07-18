@@ -27,6 +27,15 @@ else
   echo "→ web/.env.development already exists, skipping"
 fi
 
+echo "Installing git hooks..."
+if command -v lefthook &> /dev/null; then
+  lefthook install
+  echo "✓ Git hooks installed"
+else
+  echo "⚠ Lefthook not found. Install it with: brew install lefthook"
+  echo "  Then run: lefthook install"
+fi
+
 echo ""
 echo "Next steps:"
 echo "  1. Add your MBTA_API_KEY to api/.env"

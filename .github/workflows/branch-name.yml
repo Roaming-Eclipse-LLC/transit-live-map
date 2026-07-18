@@ -1,0 +1,39 @@
+name: Branch Name Check
+
+on:
+  push:
+    branches-ignore:
+      - main
+
+jobs:
+  check-branch-name:
+    name: Validate Branch Name
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check branch name
+        run: |
+          BRANCH="${GITHUB_REF#refs/heads/}"
+          PATTERN="^(feat|fix|chore|docs|refactor|hotfix|test)/[a-zA-Z0-9][a-zA-Z0-9_-]*$"
+
+          echo "Branch name: $BRANCH"
+
+          if [[ ! "$BRANCH" =~ $PATTERN ]]; then
+            echo "❌ Invalid branch name: '$BRANCH'"
+            echo ""
+            echo "Branch names must follow the pattern: type/description"
+            echo "Valid types: feat, fix, chore, docs, refactor, hotfix, test"
+            echo ""
+            echo "Examples:"
+            echo "  feat/add-route-filtering"
+            echo "  fix/websocket-reconnect"
+            echo "  chore/update-dependencies"
+            echo "  docs/update-readme"
+            echo ""
+            echo "Rules:"
+            echo "  - Letters (upper or lowercase), numbers, hyphens, and underscores only"
+            echo "  - Must start with a letter or number after the prefix"
+            exit 1
+          fi
+
+          echo "✅ Branch name '$BRANCH' is valid"
