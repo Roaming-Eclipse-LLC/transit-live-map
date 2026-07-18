@@ -18,6 +18,12 @@ jobs:
 
           echo "Branch name: $BRANCH"
 
+          # Skip check for Dependabot branches
+          if [[ "$BRANCH" == dependabot/* ]]; then
+            echo "✅ Dependabot branch detected, skipping name check"
+            exit 0
+          fi
+
           if [[ ! "$BRANCH" =~ $PATTERN ]]; then
             echo "❌ Invalid branch name: '$BRANCH'"
             echo ""
