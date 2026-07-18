@@ -241,6 +241,7 @@ Direct pushes to `main` are disabled. All changes go through a Pull Request.
 | Tech stack page                              | ✅ Complete    |
 | React frontend — custom bus icons (post-MVP) | 🔲 Not started |
 | Cookie / privacy disclaimer                  | 🔲 Not started |
+| robots.txt / crawler blocking                | ✅ Complete    |
 | API test coverage (unit + integration)       | 🔲 Not started |
 | Frontend test coverage (unit + component)    | 🔲 Not started |
 
@@ -260,7 +261,7 @@ This project is built around the open GTFS-RT standard. To use it with a differe
 
 - Helmet.js for HTTP security headers (XSS, clickjacking, etc.)
 - DDoS protection via Cloudflare or similar (recommended before any public city contract deployment)
-- `robots.txt` and crawler/AI scraping protection (Cloudflare bot management for stronger enforcement)
+- `robots.txt` in place — Cloudflare bot management recommended for stronger enforcement before any public city contract deployment
 - WebSocket authentication (post-MVP)
 - Per-IP WebSocket rate limiting and maximum concurrent connection limits
 - Automated test coverage — unit tests for API utilities and normalizers (Jest), component tests for React UI (Vitest + React Testing Library)
