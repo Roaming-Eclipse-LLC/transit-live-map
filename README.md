@@ -135,6 +135,7 @@ HTTP endpoints are rate limited to **25 requests per 5 minutes** per IP. WebSock
 - Node.js v18+
 - npm v9+
 - A MapTiler API key ([maptiler.com](https://maptiler.com)) — or use OpenFreeMap for no key required
+- [Lefthook](https://github.com/evilmartians/lefthook) for git hooks (`brew install lefthook`)
 
 ### 1. Clone the repo
 
@@ -234,11 +235,11 @@ Direct pushes to `main` are disabled. All changes go through a Pull Request.
 | React frontend — selected vehicle highlight  | ✅ Complete    |
 | API rate limiting                            | ✅ Complete    |
 | Docker + Fly.io deployment (backend)         | ✅ Complete    |
-| React frontend — custom bus icons (post-MVP) | 🔲 Not started |
-| Tech stack page                              | 🔲 In progress |
 | Vercel deployment (frontend)                 | ✅ Complete    |
-| GitHub Actions CI/CD                         | 🔲 Not started |
-| GitHub branch protection rules               | 🔲 Not started |
+| GitHub Actions CI/CD                         | ✅ Complete    |
+| GitHub branch protection rules               | ✅ Complete    |
+| Tech stack page                              | ✅ Complete    |
+| React frontend — custom bus icons (post-MVP) | 🔲 Not started |
 | Cookie / privacy disclaimer                  | 🔲 Not started |
 | API test coverage (unit + integration)       | 🔲 Not started |
 | Frontend test coverage (unit + component)    | 🔲 Not started |
@@ -257,21 +258,22 @@ This project is built around the open GTFS-RT standard. To use it with a differe
 
 ## Future Expansion
 
-- Automated test coverage — unit tests for API utilities and normalizers (Jest), component tests for React UI (Vitest + React Testing Library)
-- Light/dark mode toggle (considering Tailwind CSS for theming)
-- Transit vehicle type differentiation — unique icons per vehicle type (bus, subway, commuter rail, ferry)
-- WebSocket authentication (post-MVP)
-- Per-IP WebSocket rate limiting and maximum concurrent connection limits
 - Helmet.js for HTTP security headers (XSS, clickjacking, etc.)
 - DDoS protection via Cloudflare or similar (recommended before any public city contract deployment)
 - `robots.txt` and crawler/AI scraping protection (Cloudflare bot management for stronger enforcement)
-- Feature flag / A/B testing support (considering Unleash or LaunchDarkly for controlled rollouts)
-- Supabase (PostgreSQL + PostGIS) for historical vehicle position persistence
+- WebSocket authentication (post-MVP)
+- Per-IP WebSocket rate limiting and maximum concurrent connection limits
+- Automated test coverage — unit tests for API utilities and normalizers (Jest), component tests for React UI (Vitest + React Testing Library)
 - Stop and next stop data via MBTA v3 `/predictions` endpoint (vehicle panel expansion)
 - Real-time route filtering
 - ETA predictions
+- Supabase (PostgreSQL + PostGIS) for historical vehicle position persistence
+- Light/dark mode toggle (considering Tailwind CSS for theming)
+- Transit vehicle type differentiation — unique icons per vehicle type (bus, subway, commuter rail, ferry)
 - Historical playback
 - Mobile-friendly UI
+- Feature flag / A/B testing support (considering Unleash or LaunchDarkly for controlled rollouts)
+- Vercel staging environment with manual promotion to production (build once from `main`, promote same artifact)
 - Redis Pub/Sub for horizontal scaling
 - SvelteKit frontend (planned post-completion)
 - Possible backend migration to Elixir + Phoenix

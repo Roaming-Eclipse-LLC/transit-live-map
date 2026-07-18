@@ -11,6 +11,7 @@ Node.js/Express backend for the Transit Live Map application. Polls the MBTA GTF
 - dotenv — environment variable management
 - tsx — TypeScript dev server
 - express-rate-limit — HTTP endpoint rate limiting
+- Lefthook — git hooks (pre-commit linting, pre-push branch name validation)
 
 ## Getting Started
 

@@ -1,0 +1,43 @@
+pre-commit:
+  parallel: true
+  commands:
+    lint-api:
+      root: 'api/'
+      run: npm run lint
+      glob: '*.{ts}'
+
+    lint-web:
+      root: 'web/'
+      run: npm run lint
+      glob: '*.{ts,tsx,scss}'
+
+pre-push:
+  commands:
+    branch-name:
+      run: |
+        BRANCH=$(git rev-parse --abbrev-ref HEAD)
+        PATTERN="^(feat|fix|chore|docs|refactor|hotfix|test)/[a-zA-Z0-9][a-zA-Z0-9_-]*$"
+
+        if [[ "$BRANCH" == "main" ]]; then
+          exit 0
+        fi
+
+        if [[ ! "$BRANCH" =~ $PATTERN ]]; then
+          echo "❌ Invalid branch name: '$BRANCH'"
+          echo ""
+          echo "Branch names must follow the pattern: type/description"
+          echo "Valid types: feat, fix, chore, docs, refactor, hotfix, test"
+          echo ""
+          echo "Examples:"
+          echo "  feat/add-route-filtering"
+          echo "  fix/websocket-reconnect"
+          echo "  chore/update-dependencies"
+          echo "  docs/update-readme"
+          echo ""
+          echo "Rules:"
+          echo "  - Letters (upper or lowercase), numbers, hyphens, and underscores only"
+          echo "  - Must start with a letter or number after the prefix"
+          exit 1
+        fi
+
+        echo "✅ Branch name '$BRANCH' is valid"
