@@ -4,15 +4,9 @@ on:
   push:
     branches-ignore:
       - main
-    paths:
-      - 'web/**'
-      - '.github/workflows/web.yml'
   pull_request:
     branches:
       - main
-    paths:
-      - 'web/**'
-      - '.github/workflows/web.yml'
 
 jobs:
   web:
@@ -25,8 +19,16 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Check for Web changes
+        id: changes
+        run: |
+          git diff --name-only origin/main...HEAD | grep '^web/' && echo "changed=true" >> $GITHUB_OUTPUT || echo "changed=false" >> $GITHUB_OUTPUT
 
       - name: Setup Node.js
+        if: steps.changes.outputs.changed == 'true'
         uses: actions/setup-node@v6
         with:
           node-version: 24
@@ -34,15 +36,19 @@ jobs:
           cache-dependency-path: web/package-lock.json
 
       - name: Install dependencies
+        if: steps.changes.outputs.changed == 'true'
         run: npm ci
 
       - name: Run ESLint
+        if: steps.changes.outputs.changed == 'true'
         run: npm run lint
 
       - name: TypeScript check
+        if: steps.changes.outputs.changed == 'true'
         run: npx tsc --noEmit
 
       - name: Build
+        if: steps.changes.outputs.changed == 'true'
         run: npm run build
         env:
           VITE_MAPTILER_KEY: ${{ secrets.VITE_MAPTILER_KEY }}
