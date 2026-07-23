@@ -5,7 +5,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: rgba(26, 26, 46, 0.85);
+  background-color: var(--color-overlay);
   z-index: 10;
   gap: 1rem;
 }
