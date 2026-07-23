@@ -10,6 +10,11 @@ import { VehiclePanel } from '../VehiclePanel';
 import type { VehiclePosition } from '../../types/vehicle';
 import styles from './Map.module.scss';
 
+interface Props {
+  hideLoadingOverlay?: boolean;
+  consented?: boolean;
+}
+
 const MAPTILER_KEY = import.meta.env.VITE_MAPTILER_KEY;
 const SOURCE_ID = 'vehicles';
 
@@ -19,7 +24,7 @@ const IMAGE_ID = 'vehicle-arrow';
 const SELECTED_LAYER_ID = 'vehicle-arrows-selected';
 const SELECTED_IMAGE_ID = 'vehicle-arrow-selected';
 
-const Map = () => {
+const Map = ({ hideLoadingOverlay, consented = true }: Props) => {
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<maplibregl.Map | null>(null);
 
@@ -164,6 +169,15 @@ const Map = () => {
       return;
     }
 
+    if (!consented) {
+      source.setData({
+        type: 'FeatureCollection',
+        features: [],
+      });
+
+      return;
+    }
+
     source.setData({
       type: 'FeatureCollection',
       features: vehicles.map((v) => ({
@@ -181,13 +195,13 @@ const Map = () => {
         },
       })),
     });
-  }, [vehicles, mapLoaded]);
+  }, [vehicles, mapLoaded, consented]);
 
   const isLoading = !mapLoaded || vehicles.length === 0;
 
   return (
     <div className={styles.mapWrapper}>
-      {isLoading && <LoadingOverlay />}
+      {isLoading && !hideLoadingOverlay && <LoadingOverlay />}
       <div ref={mapContainer} className={styles.mapContainer} />
       <VehiclePanel
         vehicle={selectedVehicle}
