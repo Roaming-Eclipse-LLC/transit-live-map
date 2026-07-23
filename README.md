@@ -240,7 +240,7 @@ Direct pushes to `main` are disabled. All changes go through a Pull Request.
 | GitHub branch protection rules               | ✅ Complete    |
 | Tech stack page                              | ✅ Complete    |
 | React frontend — custom bus icons (post-MVP) | 🔲 Not started |
-| Cookie / privacy disclaimer                  | 🔲 Not started |
+| Cookie / privacy disclaimer                  | ✅ Complete    |
 | robots.txt / crawler blocking                | ✅ Complete    |
 | API test coverage (unit + integration)       | 🔲 Not started |
 | Frontend test coverage (unit + component)    | 🔲 Not started |
