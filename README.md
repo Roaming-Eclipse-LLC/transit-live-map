@@ -221,6 +221,8 @@ Direct pushes to `main` are disabled. All changes go through a Pull Request.
 
 ## Project Status
 
+> **Full roadmap:** tracked in [GitHub Projects — Transit Live Map Roadmap](https://github.com/orgs/Roaming-Eclipse-LLC/projects/3)
+
 | Phase                                        | Status         |
 | -------------------------------------------- | -------------- |
 | Project scaffold                             | ✅ Complete    |
@@ -241,6 +243,7 @@ Direct pushes to `main` are disabled. All changes go through a Pull Request.
 | Tech stack page                              | ✅ Complete    |
 | React frontend — custom bus icons (post-MVP) | 🔲 Not started |
 | Cookie / privacy disclaimer                  | ✅ Complete    |
+| Helmet.js security headers                   | ✅ Complete    |
 | robots.txt / crawler blocking                | ✅ Complete    |
 | API test coverage (unit + integration)       | 🔲 Not started |
 | Frontend test coverage (unit + component)    | 🔲 Not started |
@@ -259,7 +262,6 @@ This project is built around the open GTFS-RT standard. To use it with a differe
 
 ## Future Expansion
 
-- Helmet.js for HTTP security headers (XSS, clickjacking, etc.)
 - DDoS protection via Cloudflare or similar (recommended before any public city contract deployment)
 - `robots.txt` in place — Cloudflare bot management recommended for stronger enforcement before any public city contract deployment
 - WebSocket authentication (post-MVP)
@@ -268,7 +270,9 @@ This project is built around the open GTFS-RT standard. To use it with a differe
 - Stop and next stop data via MBTA v3 `/predictions` endpoint (vehicle panel expansion)
 - Real-time route filtering
 - ETA predictions
-- Supabase (PostgreSQL + PostGIS) for historical vehicle position persistence
+- PostgreSQL persistence — vehicle position history, stored procedures, and reporting endpoint (lays groundwork for Supabase + PostGIS integration)
+- Supabase (PostgreSQL + PostGIS) for historical vehicle position persistence and geospatial queries
+- .NET Core backend (ASP.NET Core + SignalR) — parallel implementation alongside Node.js to demonstrate full-stack versatility for enterprise and health-tech roles
 - Light/dark mode toggle (considering Tailwind CSS for theming)
 - Transit vehicle type differentiation — unique icons per vehicle type (bus, subway, commuter rail, ferry)
 - Historical playback
@@ -276,7 +280,7 @@ This project is built around the open GTFS-RT standard. To use it with a differe
 - Feature flag / A/B testing support (considering Unleash or LaunchDarkly for controlled rollouts)
 - Vercel staging environment with manual promotion to production (build once from `main`, promote same artifact)
 - Redis Pub/Sub for horizontal scaling
-- SvelteKit frontend (planned post-completion)
+- SvelteKit frontend (separate Vercel deployment, same backend)
 - Possible backend migration to Elixir + Phoenix
 
 ---
