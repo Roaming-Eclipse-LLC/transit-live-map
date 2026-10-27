@@ -5,9 +5,13 @@
   "main": "src/server.ts",
   "scripts": {
     "dev": "tsx watch src/server.ts",
-    "build": "tsc",
+    "build": "tsc && npm run copy:proto",
+    "copy:proto": "cp src/poller/gtfs-realtime.proto dist/poller/gtfs-realtime.proto",
     "start": "node dist/server.js",
-    "lint": "eslint src/**/*.ts"
+    "lint": "eslint src/**/*.ts",
+    "test": "vitest run",
+    "test:watch": "vitest --coverage",
+    "test:coverage": "vitest run --coverage"
   },
   "keywords": [],
   "author": {
@@ -28,11 +32,13 @@
     "@types/express": "^5.0.6",
     "@types/node": "^25.8.0",
     "@types/ws": "^8.18.1",
+    "@vitest/coverage-v8": "^5.0.3",
     "eslint": "^10.4.0",
     "globals": "^17.7.0",
     "prettier": "^3.8.3",
     "tsx": "^4.22.0",
     "typescript": "~6.0.3",
-    "typescript-eslint": "^8.59.3"
+    "typescript-eslint": "^8.59.3",
+    "vitest": "^5.0.3"
   }
 }

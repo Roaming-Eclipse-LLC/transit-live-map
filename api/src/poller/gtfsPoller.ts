@@ -2,9 +2,9 @@ import protobuf from 'protobufjs';
 import path from 'path';
 
 import type { VehiclePosition } from '../types/vehicle';
-import type { GtfsFeedEntity, GtfsFeedMessage } from '../types/gtfs';
+import type { GtfsFeedMessage } from '../types/gtfs';
 
-import { convertLong } from '../utils/convertLong';
+import { hasPosition, normalizeVehicle } from '../utils/normalizeVehicle';
 
 const GTFS_RT_URL =
   process.env.GTFS_RT_URL ??
@@ -44,21 +44,7 @@ async function fetchVehiclePositions(): Promise<VehiclePosition[]> {
     new Uint8Array(buffer),
   ) as unknown as GtfsFeedMessage;
 
-  return decoded.entity
-    .filter((entity: GtfsFeedEntity) => entity.vehicle?.position)
-    .map((entity: GtfsFeedEntity): VehiclePosition => {
-      const v = entity.vehicle!;
-
-      return {
-        id: entity.id,
-        routeId: v.trip?.routeId ?? 'unknown',
-        latitude: v.position!.latitude,
-        longitude: v.position!.longitude,
-        bearing: v.position?.bearing ?? undefined,
-        speed: v.position?.speed ?? undefined,
-        timestamp: convertLong(v.timestamp),
-      } satisfies VehiclePosition;
-    });
+  return decoded.entity.filter(hasPosition).map(normalizeVehicle);
 }
 
 /** Runs an immediate poll then schedules repeated fetches at POLL_INTERVAL_MS, invoking onUpdate with each result. */
