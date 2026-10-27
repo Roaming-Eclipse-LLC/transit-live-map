@@ -1,9 +1,9 @@
 import { WebSocket, WebSocketServer } from 'ws';
 import { Server } from 'http';
 
-import { VehiclePosition } from '../types/vehicle';
+import type { VehiclePosition } from '../types/vehicle';
 
-const clients: Set<WebSocket> = new Set();
+export const clients: Set<WebSocket> = new Set();
 
 /** Attaches a WebSocket server to the existing HTTP server and manages the client registry. */
 export function initWebSocketServer(server: Server): void {
