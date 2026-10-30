@@ -6,7 +6,8 @@ import dotenv from 'dotenv';
 import { rateLimiter } from './middleware/rateLimiter';
 
 import { startPoller } from './poller/gtfsPoller';
-import { initWebSocketServer, broadcastVehicles } from './websocket/wsServer';
+import { initWebSocketServer } from './websocket/wsServer';
+import { broadcastVehicles } from './websocket/broadcast';
 import { VehiclePosition } from './types/vehicle';
 
 dotenv.config();
