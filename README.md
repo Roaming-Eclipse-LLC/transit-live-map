@@ -59,6 +59,8 @@ GTFS-RT Feed (MBTA)
 | dotenv              | Environment variable management         |
 | tsx                 | TypeScript dev server (no compile step) |
 | express-rate-limit  | HTTP endpoint rate limiting             |
+| Helmet              | HTTP security headers                   |
+| Vitest              | Unit testing and coverage               |
 | ESLint + Prettier   | Linting and formatting                  |
 
 ### Web
@@ -70,18 +72,23 @@ GTFS-RT Feed (MBTA)
 | TypeScript     | Type safety                                     |
 | MapLibre GL JS | Interactive map rendering (open source)         |
 | MapTiler       | Map tile provider (free tier, API key required) |
+| React Router   | Client-side routing                             |
+| SCSS Modules   | Scoped component styling                        |
 
 > **Map tile options:** This project uses [MapTiler](https://maptiler.com) for map tiles by default (free tier, 50,000 requests/month). For a fully open source, no-API-key alternative, [OpenFreeMap](https://openfreemap.org) is supported — swap the style URL in `Map/index.tsx` to `https://tiles.openfreemap.org/styles/liberty`.
 
 ### Planned (Phase 2)
 
-| Tool           | Purpose                                    |
-| -------------- | ------------------------------------------ |
-| Docker         | Containerization                           |
-| Fly.io         | Backend hosting — supports WebSockets      |
-| Vercel         | Frontend hosting — static React deployment |
-| GitHub Actions | CI/CD pipeline                             |
-| Redis Pub/Sub  | Horizontal scaling support                 |
+### Infrastructure & Tooling
+
+| Tool           | Purpose                                           |
+| -------------- | ------------------------------------------------- |
+| Docker         | Containerized API (multi-stage build)             |
+| Fly.io         | API hosting — supports WebSockets                 |
+| Vercel         | Frontend hosting — static React deployment        |
+| GitHub Actions | CI (lint, type check, build)                      |
+| Dependabot     | Grouped weekly dependency updates                 |
+| Lefthook       | Git hooks (pre-commit lint, pre-push branch name) |
 
 ---
 
@@ -245,7 +252,8 @@ Direct pushes to `main` are disabled. All changes go through a Pull Request.
 | Cookie / privacy disclaimer                  | ✅ Complete    |
 | Helmet.js security headers                   | ✅ Complete    |
 | robots.txt / crawler blocking                | ✅ Complete    |
-| API test coverage (unit + integration)       | 🔲 Not started |
+| API unit tests                               | ✅ Complete    |
+| API integration tests                        | 🔲 Not started |
 | Frontend test coverage (unit + component)    | 🔲 Not started |
 
 ---
@@ -266,7 +274,9 @@ This project is built around the open GTFS-RT standard. To use it with a differe
 - `robots.txt` in place — Cloudflare bot management recommended for stronger enforcement before any public city contract deployment
 - WebSocket authentication (post-MVP)
 - Per-IP WebSocket rate limiting and maximum concurrent connection limits
-- Automated test coverage — unit tests for API utilities and normalizers (Jest), component tests for React UI (Vitest + React Testing Library)
+- Automated test coverage — Vitest unit tests for the API (done), component tests for the React UI (Vitest + React Testing Library)
+- Integration tests — real WebSocket server/client, HTTP route tests (supertest), and the protobuf decode path for the poller; would remove the current coverage exclusions
+- End-to-end tests (Playwright) against the deployed site
 - Stop and next stop data via MBTA v3 `/predictions` endpoint (vehicle panel expansion)
 - Real-time route filtering
 - ETA predictions
