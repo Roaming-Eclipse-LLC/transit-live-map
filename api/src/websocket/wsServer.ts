@@ -1,8 +1,6 @@
 import { WebSocket, WebSocketServer } from 'ws';
 import { Server } from 'http';
 
-import type { VehiclePosition } from '../types/vehicle';
-
 export const clients: Set<WebSocket> = new Set();
 
 /** Attaches a WebSocket server to the existing HTTP server and manages the client registry. */
@@ -24,15 +22,4 @@ export function initWebSocketServer(server: Server): void {
       clients.delete(ws);
     });
   });
-}
-
-/** Serializes vehicle positions and pushes them to all currently connected clients. */
-export function broadcastVehicles(vehicles: VehiclePosition[]): void {
-  const payload = JSON.stringify(vehicles);
-
-  for (const client of clients) {
-    if (client.readyState === WebSocket.OPEN) {
-      client.send(payload);
-    }
-  }
 }

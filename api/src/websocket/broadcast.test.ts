@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { WebSocket } from 'ws';
 
-import { broadcastVehicles, clients } from './wsServer';
+import { broadcastVehicles, clients } from './broadcast';
 import type { VehiclePosition } from '../types/vehicle';
 
 const mockVehicles: VehiclePosition[] = [
