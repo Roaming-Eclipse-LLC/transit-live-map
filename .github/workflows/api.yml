@@ -47,6 +47,10 @@ jobs:
         if: steps.changes.outputs.changed == 'true'
         run: npx tsc --noEmit
 
+      - name: Run tests with coverage
+        if: steps.changes.outputs.changed == 'true'
+        run: npm run test:coverage
+
       - name: Build
         if: steps.changes.outputs.changed == 'true'
         run: npm run build
