@@ -218,7 +218,7 @@ Production URL: `https://transit-live-map.vercel.app`
 
 | Trigger            | Steps                                                              |
 | ------------------ | ------------------------------------------------------------------ |
-| Push to any branch | ESLint, TypeScript check, build                                    |
+| Push to any branch | ESLint, TypeScript check, build, API unit tests with coverage      |
 | Pull Request       | All checks must pass + at least one reviewer approval before merge |
 | Merge to `main`    | All checks re-run, then auto-deploy                                |
 
