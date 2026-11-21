@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { WebSocket } from 'ws';
 
-import { broadcastVehicles, clients } from './broadcast';
+import { broadcastVehicles, clients, sendLatestTo } from './broadcast';
 import type { VehiclePosition } from '../types/vehicle';
 
 const mockVehicles: VehiclePosition[] = [
@@ -24,6 +24,7 @@ const mockClient = (readyState: number) =>
 
 beforeEach(() => {
   clients.clear();
+  broadcastVehicles([]); // resets the cache, since sendLatestTo skips empty data
 });
 
 describe('broadcastVehicles', () => {
@@ -68,5 +69,45 @@ describe('broadcastVehicles', () => {
     broadcastVehicles([]);
 
     expect(client.send).toHaveBeenCalledWith('[]');
+  });
+});
+
+describe('sendLatestTo', () => {
+  it('sends the most recent vehicles to a newly connected client', () => {
+    broadcastVehicles(mockVehicles);
+    const client = mockClient(WebSocket.OPEN);
+
+    sendLatestTo(client);
+
+    expect(client.send).toHaveBeenCalledWith(JSON.stringify(mockVehicles));
+  });
+
+  it('sends the newest snapshot when several polls have run', () => {
+    const newer = [{ ...mockVehicles[0], id: 'v2' }];
+    broadcastVehicles(mockVehicles);
+    broadcastVehicles(newer);
+    const client = mockClient(WebSocket.OPEN);
+
+    sendLatestTo(client);
+
+    expect(client.send).toHaveBeenCalledTimes(1);
+    expect(client.send).toHaveBeenCalledWith(JSON.stringify(newer));
+  });
+
+  it('sends nothing before the first poll has run', () => {
+    const client = mockClient(WebSocket.OPEN);
+
+    sendLatestTo(client);
+
+    expect(client.send).not.toHaveBeenCalled();
+  });
+
+  it('sends nothing to a client that is not open', () => {
+    broadcastVehicles(mockVehicles);
+    const client = mockClient(WebSocket.CLOSED);
+
+    sendLatestTo(client);
+
+    expect(client.send).not.toHaveBeenCalled();
   });
 });
