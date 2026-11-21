@@ -24,7 +24,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6 # use the same version as api.yml
+        uses: actions/checkout@v7
 
       - name: Setup flyctl
         uses: superfly/flyctl-actions/setup-flyctl@master
