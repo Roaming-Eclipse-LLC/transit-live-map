@@ -17,7 +17,6 @@ export default defineConfig({
         // Infrastructure glue, better covered by integration tests later
         'src/server.ts',
         'src/poller/gtfsPoller.ts',
-        'src/websocket/wsServer.ts',
       ],
       reporter: ['text', 'lcov'],
       thresholds: {
