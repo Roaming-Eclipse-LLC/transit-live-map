@@ -17,11 +17,8 @@ export default defineConfig({
         'src/**/*.test.ts',
         'src/**/*.spec.ts',
         'src/types/**',
+        'src/test/**',
         'src/server.ts',
-        'src/poller/gtfsPoller.ts',
-        // Infrastructure glue, better covered by integration tests later
-        'src/server.ts',
-        'src/poller/gtfsPoller.ts',
       ],
       reporter: ['text', 'lcov'],
       thresholds: {
