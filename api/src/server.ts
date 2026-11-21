@@ -1,53 +1,20 @@
-import express from 'express';
+import 'dotenv/config';
 import http from 'http';
-import helmet from 'helmet';
-import dotenv from 'dotenv';
 
-import { rateLimiter } from './middleware/rateLimiter';
-
+import { createApp } from './app';
 import { startPoller } from './poller/gtfsPoller';
 import { initWebSocketServer } from './websocket/wsServer';
 import { broadcastVehicles } from './websocket/broadcast';
-import { VehiclePosition } from './types/vehicle';
 
-dotenv.config();
-
-const app = express();
 const PORT = process.env.PORT ?? 3001;
 
-// Fly.io's proxy sits in front of the app. Trust one hop so req.ip is the visitor's address.
-app.set('trust proxy', 1);
-
-app.use(helmet());
-app.use(express.json());
-app.use(rateLimiter);
-
-const server = http.createServer(app);
+const server = http.createServer(createApp());
 
 initWebSocketServer(server);
-
-/** Root endpoint — confirms the API is reachable. */
-app.get('/', (_req, res) => {
-  res.json({
-    message: 'Transit Live Map API is running',
-  });
-});
-
-/** Health check endpoint — returns current server status and timestamp for uptime monitoring. */
-app.get('/health', (_req, res) => {
-  res.json({
-    status: 'ok',
-    timestamp: new Date().toISOString(),
-  });
-});
 
 /** Starts the HTTP server and kicks off the GTFS-RT poller once the port is bound. */
 server.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 
-  startPoller((vehicles: VehiclePosition[]) => {
-    broadcastVehicles(vehicles);
-  });
+  startPoller(broadcastVehicles);
 });
-
-export default app;
