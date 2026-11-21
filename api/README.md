@@ -49,15 +49,17 @@ MBTA_API_KEY=your_mbta_api_key_here
 
 ## Endpoints
 
-| Method | Route                 | Description                    |
-| ------ | --------------------- | ------------------------------ |
-| GET    | `/`                   | Root — confirms API is running |
-| GET    | `/health`             | Health check with timestamp    |
-| WS     | `ws://localhost:3001` | Streams live vehicle positions |
+| Method | Route                 | Description                                                                           |
+| ------ | --------------------- | ------------------------------------------------------------------------------------- |
+| GET    | `/`                   | Root — confirms API is running                                                        |
+| GET    | `/health`             | Health check with timestamp                                                           |
+| WS     | `ws://localhost:3001` | Streams live vehicle positions; a new client immediately receives the latest snapshot |
 
 ## Rate Limiting
 
 HTTP endpoints are rate limited to **25 requests per 5 minutes** per IP. Exceeding this returns a `429 Too Many Requests` response. WebSocket connections are not rate limited.
+
+The API sets `trust proxy` to `1` so the limit applies to each visitor's IP address behind Fly.io's proxy, not to the proxy itself.
 
 ## Testing
 
@@ -77,11 +79,28 @@ The API is deployed on **Fly.io** using Docker.
 
 Production URL: `https://transit-live-map-api.fly.dev`
 
-To deploy manually:
+### Automatic deploys
+
+Merging to `main` deploys the API when anything under `api/` changes. The `Deploy API` workflow (`.github/workflows/deploy-api.yml`) runs `flyctl deploy --remote-only` from the `api/` folder and authenticates with a deploy token stored as the `FLY_API_TOKEN` repository secret. To run it by hand, use **Actions → Deploy API → Run workflow**.
+
+To create or rotate the token, run this from `api/`:
 
 ```bash
+fly tokens create deploy -x 999999h
+```
+
+Save the full output, including the `FlyV1 ` prefix, as `FLY_API_TOKEN` under **Settings → Secrets and variables → Actions**.
+
+### Manual deploy
+
+```bash
+cd api
 fly deploy
 ```
+
+Check a deploy with `fly releases --app transit-live-map-api`.
+
+### Runtime configuration
 
 Environment variables are managed via Fly.io secrets:
 
@@ -110,7 +129,7 @@ src/
 │   └── normalizeVehicle.ts  # Raw GTFS entity to VehiclePosition
 ├── websocket/
 │   ├── broadcast.test.ts
-│   ├── broadcast.ts         # Client registry and vehicle broadcasting
+│   ├── broadcast.ts         # Client registry, broadcasting and latest-snapshot cache
 │   └── wsServer.ts          # WebSocket server and connection lifecycle
 └── server.ts                # Express server entry point
 ```
@@ -118,6 +137,7 @@ src/
 ## Future Improvements
 
 - Integration tests (real WebSocket server/client, HTTP routes with supertest, protobuf decode path)
+- Gate deploys on the test workflow
 - WebSocket authentication (post-MVP)
 - Per-IP WebSocket rate limiting
 - Redis Pub/Sub for horizontal scaling
