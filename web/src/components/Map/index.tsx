@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
-import maplibregl from 'maplibre-gl';
+import * as maplibregl from 'maplibre-gl';
+import workerUrl from 'maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url';
 import 'maplibre-gl/dist/maplibre-gl.css';
 
 import { useVehicles } from '../../hooks/useVehicles';
@@ -9,6 +10,8 @@ import { VehiclePanel } from '../VehiclePanel';
 
 import type { VehiclePosition } from '../../types/vehicle';
 import styles from './Map.module.scss';
+
+maplibregl.setWorkerUrl(workerUrl);
 
 interface Props {
   hideLoadingOverlay?: boolean;
@@ -199,14 +202,16 @@ const Map = ({ hideLoadingOverlay, consented = true }: Props) => {
 
   const isLoading = !mapLoaded || vehicles.length === 0;
 
+  const clearSelection = () => {
+    setSelectedVehicle(null);
+    map.current?.setFilter(SELECTED_LAYER_ID, ['==', ['get', 'id'], '']);
+  };
+
   return (
     <div className={styles.mapWrapper}>
       {isLoading && !hideLoadingOverlay && <LoadingOverlay />}
       <div ref={mapContainer} className={styles.mapContainer} />
-      <VehiclePanel
-        vehicle={selectedVehicle}
-        onClose={() => setSelectedVehicle(null)}
-      />
+      <VehiclePanel vehicle={selectedVehicle} onClose={clearSelection} />
     </div>
   );
 };
