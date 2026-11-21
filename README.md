@@ -256,7 +256,8 @@ Each CI workflow skips its steps when nothing in its folder changed. Direct push
 | API unit tests                               | ✅ Complete    |
 | Frontend unit tests                          | ✅ Complete    |
 | React frontend — custom bus icons (post-MVP) | 🔲 Not started |
-| API integration tests                        | 🔲 Not started |
+| API integration tests (HTTP, WebSocket)      | ✅ Complete    |
+| API integration tests (poller)               | 🔲 Not started |
 
 ---
 
@@ -276,7 +277,7 @@ This project is built around the open GTFS-RT standard. To use it with a differe
 - `robots.txt` in place — Cloudflare bot management recommended for stronger enforcement before any public city contract deployment
 - WebSocket authentication (post-MVP)
 - Per-IP WebSocket rate limiting and maximum concurrent connection limits
-- Integration tests — real WebSocket server/client, HTTP route tests (supertest), and the protobuf decode path for the poller; would remove the current coverage exclusions
+- Poller integration test — feed the poller a real protobuf-encoded buffer with only `fetch` mocked; would remove the `gtfsPoller.ts` coverage exclusion
 - End-to-end tests (Playwright) against the deployed site
 - Gate API deploys on the CI workflow (reusable workflow) so tests must pass before Fly.io deploys
 - Lazy-load the map page — MapLibre makes the main bundle about 1.3 MB

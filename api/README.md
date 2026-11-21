@@ -63,15 +63,19 @@ The API sets `trust proxy` to `1` so the limit applies to each visitor's IP addr
 
 ## Testing
 
-Unit tests use Vitest. They live next to the source files they cover (`*.test.ts`), and config is in `vitest.config.mts`.
+Tests use Vitest and live next to the source files they cover. Config is in `vitest.config.mts`.
+
+- **Unit tests** (`*.test.ts`) test one module in isolation, with its dependencies faked.
+- **Integration tests** (`*.integration.test.ts`) start the real app and WebSocket server on a random port and talk to it with `fetch` and a real `ws` client. They cover the HTTP routes, security headers, rate limiting (including per-visitor counting behind the proxy) and the WebSocket connect, broadcast and disconnect flow.
+
+Run only the integration tests with `npx vitest run integration`.
 
 Coverage thresholds are **80%** for statements, branches, functions and lines.
 
-Three files are excluded from coverage because they are infrastructure glue (server startup, network fetch and protobuf decode, WebSocket connection lifecycle) and are better covered by integration tests:
+Two files are excluded from coverage because they are infrastructure glue that still needs integration tests (server startup, and the network fetch and protobuf decode path):
 
 - `src/server.ts`
 - `src/poller/gtfsPoller.ts`
-- `src/websocket/wsServer.ts`
 
 ## Deployment
 
@@ -109,8 +113,6 @@ fly secrets set MBTA_API_KEY=your_key_here
 fly secrets set GTFS_RT_URL=https://cdn.mbta.com/realtime/VehiclePositions.pb
 ```
 
-## Architecture
-
 ```
 src/
 ├── middleware/
@@ -119,6 +121,8 @@ src/
 ├── poller/
 │   ├── gtfs-realtime.proto  # Official GTFS-RT schema
 │   └── gtfsPoller.ts        # GTFS-RT polling and protobuf decoding
+├── test/
+│   └── startTestServer.ts   # Test helper: app and WebSocket server on a random port
 ├── types/
 │   ├── gtfs.ts              # Raw GTFS-RT types
 │   └── vehicle.ts           # VehiclePosition interface
@@ -130,8 +134,11 @@ src/
 ├── websocket/
 │   ├── broadcast.test.ts
 │   ├── broadcast.ts         # Client registry, broadcasting and latest-snapshot cache
+│   ├── wsServer.integration.test.ts
 │   └── wsServer.ts          # WebSocket server and connection lifecycle
-└── server.ts                # Express server entry point
+├── app.integration.test.ts
+├── app.ts                   # createApp(): Express app, middleware and routes
+└── server.ts                # Entry point: starts the HTTP server, WebSocket server and poller
 ```
 
 ## Future Improvements
@@ -141,3 +148,4 @@ src/
 - WebSocket authentication (post-MVP)
 - Per-IP WebSocket rate limiting
 - Redis Pub/Sub for horizontal scaling
+- Poller integration test (a real protobuf-encoded feed, with only `fetch` mocked), which removes the last coverage exclusion
