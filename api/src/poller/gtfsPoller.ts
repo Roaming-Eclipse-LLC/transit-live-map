@@ -3,7 +3,6 @@ import path from 'path';
 
 import type { VehiclePosition } from '../types/vehicle';
 import type { GtfsFeedMessage } from '../types/gtfs';
-
 import { hasPosition, normalizeVehicle } from '../utils/normalizeVehicle';
 
 const GTFS_RT_URL =
@@ -39,10 +38,15 @@ async function fetchVehiclePositions(): Promise<VehiclePosition[]> {
   }
 
   const buffer = await response.arrayBuffer();
+  const message = FeedMessage.decode(new Uint8Array(buffer));
 
-  const decoded = FeedMessage.decode(
-    new Uint8Array(buffer),
-  ) as unknown as GtfsFeedMessage;
+  // toObject copies only the fields the feed actually sent. A plain decoded
+  // message reports missing numeric fields as 0 (the protobuf default), which
+  // turns an unknown bearing or speed into a real-looking zero.
+  const decoded = FeedMessage.toObject(message, {
+    longs: Number,
+    arrays: true,
+  }) as unknown as GtfsFeedMessage;
 
   return decoded.entity.filter(hasPosition).map(normalizeVehicle);
 }
