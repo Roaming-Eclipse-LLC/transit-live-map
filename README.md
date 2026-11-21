@@ -65,30 +65,29 @@ GTFS-RT Feed (MBTA)
 
 ### Web
 
-| Tool           | Purpose                                         |
-| -------------- | ----------------------------------------------- |
-| React          | UI framework                                    |
-| Vite           | Build tool and dev server                       |
-| TypeScript     | Type safety                                     |
-| MapLibre GL JS | Interactive map rendering (open source)         |
-| MapTiler       | Map tile provider (free tier, API key required) |
-| React Router   | Client-side routing                             |
-| SCSS Modules   | Scoped component styling                        |
+| Tool                           | Purpose                                         |
+| ------------------------------ | ----------------------------------------------- |
+| React                          | UI framework                                    |
+| Vite                           | Build tool and dev server                       |
+| TypeScript                     | Type safety                                     |
+| MapLibre GL JS                 | Interactive map rendering (open source)         |
+| MapTiler                       | Map tile provider (free tier, API key required) |
+| React Router                   | Client-side routing                             |
+| SCSS Modules                   | Scoped component styling                        |
+| Vitest + React Testing Library | Unit and component tests                        |
 
 > **Map tile options:** This project uses [MapTiler](https://maptiler.com) for map tiles by default (free tier, 50,000 requests/month). For a fully open source, no-API-key alternative, [OpenFreeMap](https://openfreemap.org) is supported — swap the style URL in `Map/index.tsx` to `https://tiles.openfreemap.org/styles/liberty`.
 
-### Planned (Phase 2)
-
 ### Infrastructure & Tooling
 
-| Tool           | Purpose                                           |
-| -------------- | ------------------------------------------------- |
-| Docker         | Containerized API (multi-stage build)             |
-| Fly.io         | API hosting — supports WebSockets                 |
-| Vercel         | Frontend hosting — static React deployment        |
-| GitHub Actions | CI (lint, type check, build)                      |
-| Dependabot     | Grouped weekly dependency updates                 |
-| Lefthook       | Git hooks (pre-commit lint, pre-push branch name) |
+| Tool           | Purpose                                                      |
+| -------------- | ------------------------------------------------------------ |
+| Docker         | Containerized API (multi-stage build)                        |
+| Fly.io         | API hosting — supports WebSockets                            |
+| Vercel         | Frontend hosting — static React deployment                   |
+| GitHub Actions | CI (lint, type check, tests, build) and API deploy to Fly.io |
+| Dependabot     | Grouped weekly dependency updates                            |
+| Lefthook       | Git hooks (pre-commit lint, pre-push branch name)            |
 
 ---
 
@@ -208,6 +207,8 @@ The API is deployed on **Fly.io** using Docker. Fly.io supports persistent WebSo
 
 Production URL: `https://transit-live-map-api.fly.dev`
 
+Merges to `main` that change `api/**` deploy automatically through the `Deploy API` GitHub Actions workflow (`.github/workflows/deploy-api.yml`), which runs `flyctl deploy --remote-only` with a `FLY_API_TOKEN` repository secret. It can also be run manually from the Actions tab. See [`api/README.md`](api/README.md#deployment) for details.
+
 ### Frontend — Vercel
 
 The React frontend is deployed on **Vercel** with automatic deploys on merge to `main`.
@@ -216,13 +217,13 @@ Production URL: `https://transit-live-map.vercel.app`
 
 ### CI/CD Pipeline (GitHub Actions)
 
-| Trigger            | Steps                                                              |
-| ------------------ | ------------------------------------------------------------------ |
-| Push to any branch | ESLint, TypeScript check, build, API unit tests with coverage      |
-| Pull Request       | All checks must pass + at least one reviewer approval before merge |
-| Merge to `main`    | All checks re-run, then auto-deploy                                |
+| Trigger            | Steps                                                                                                  |
+| ------------------ | ------------------------------------------------------------------------------------------------------ |
+| Push to any branch | ESLint, TypeScript check, unit tests with coverage, build                                              |
+| Pull Request       | All checks must pass + at least one reviewer approval before merge                                     |
+| Merge to `main`    | Vercel deploys the frontend. The `Deploy API` workflow deploys the API to Fly.io when `api/**` changed |
 
-Direct pushes to `main` are disabled. All changes go through a Pull Request.
+Each CI workflow skips its steps when nothing in its folder changed. Direct pushes to `main` are disabled. All changes go through a Pull Request.
 
 ---
 
@@ -244,17 +245,18 @@ Direct pushes to `main` are disabled. All changes go through a Pull Request.
 | React frontend — selected vehicle highlight  | ✅ Complete    |
 | API rate limiting                            | ✅ Complete    |
 | Docker + Fly.io deployment (backend)         | ✅ Complete    |
+| API auto-deploy (GitHub Actions)             | ✅ Complete    |
 | Vercel deployment (frontend)                 | ✅ Complete    |
 | GitHub Actions CI/CD                         | ✅ Complete    |
 | GitHub branch protection rules               | ✅ Complete    |
 | Tech stack page                              | ✅ Complete    |
-| React frontend — custom bus icons (post-MVP) | 🔲 Not started |
 | Cookie / privacy disclaimer                  | ✅ Complete    |
 | Helmet.js security headers                   | ✅ Complete    |
 | robots.txt / crawler blocking                | ✅ Complete    |
 | API unit tests                               | ✅ Complete    |
+| Frontend unit tests                          | ✅ Complete    |
+| React frontend — custom bus icons (post-MVP) | 🔲 Not started |
 | API integration tests                        | 🔲 Not started |
-| Frontend test coverage (unit + component)    | 🔲 Not started |
 
 ---
 
@@ -274,9 +276,10 @@ This project is built around the open GTFS-RT standard. To use it with a differe
 - `robots.txt` in place — Cloudflare bot management recommended for stronger enforcement before any public city contract deployment
 - WebSocket authentication (post-MVP)
 - Per-IP WebSocket rate limiting and maximum concurrent connection limits
-- Automated test coverage — Vitest unit tests for the API (done), component tests for the React UI (Vitest + React Testing Library)
 - Integration tests — real WebSocket server/client, HTTP route tests (supertest), and the protobuf decode path for the poller; would remove the current coverage exclusions
 - End-to-end tests (Playwright) against the deployed site
+- Gate API deploys on the CI workflow (reusable workflow) so tests must pass before Fly.io deploys
+- Lazy-load the map page — MapLibre makes the main bundle about 1.3 MB
 - Stop and next stop data via MBTA v3 `/predictions` endpoint (vehicle panel expansion)
 - Real-time route filtering
 - ETA predictions
